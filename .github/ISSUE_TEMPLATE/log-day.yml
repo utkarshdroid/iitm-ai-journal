@@ -1,0 +1,80 @@
+name: "Daily Log"
+description: "Log a day's hours, energy, and signals from your phone."
+title: "log: YYYY-MM-DD"
+labels: ["daily-log"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill in your day. Only the date and at least one slot line are required.
+        The rest is optional — skip anything you don't want to record.
+
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: "The day this log is for, format YYYY-MM-DD"
+      placeholder: "2025-09-20"
+    validations:
+      required: true
+
+  - type: textarea
+    id: slots
+    attributes:
+      label: Hourly slots
+      description: >
+        One line per hour you want to record.
+        Format: START | category | what you did | energy
+        START is the hour (e.g. 5, 05, 5am, 17, 5pm). Energy is 1-5, optional.
+        Categories: Office/Work, Math, Python, Class, Gym, Commute, Meal/Break,
+        Personal/Family, US Call, Sleep, Idle/Lost, Other
+      value: |
+        6 | Gym | workout | 4
+        7 | Office/Work | deep work | 4
+        16 | Math | problem set | 4
+        18 | Python | assignment | 3
+        21 | Idle/Lost | scrolling | 2
+    validations:
+      required: true
+
+  - type: input
+    id: sleep_hours
+    attributes:
+      label: Sleep hours last night
+      placeholder: "7"
+
+  - type: input
+    id: woke_at
+    attributes:
+      label: Woke at (HH:MM)
+      placeholder: "05:00"
+
+  - type: dropdown
+    id: mood
+    attributes:
+      label: Overall mood
+      options: ["", "1", "2", "3", "4", "5"]
+
+  - type: dropdown
+    id: overall_energy
+    attributes:
+      label: Overall energy
+      options: ["", "1", "2", "3", "4", "5"]
+
+  - type: input
+    id: top_derailer
+    attributes:
+      label: Top derailer today
+      placeholder: "Late-evening scrolling"
+
+  - type: input
+    id: biggest_win
+    attributes:
+      label: Biggest win today
+      placeholder: "Full 3 hours of study"
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      placeholder: "Anything worth remembering about today"

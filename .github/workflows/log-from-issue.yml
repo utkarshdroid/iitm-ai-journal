@@ -1,0 +1,83 @@
+name: Log day from issue
+
+# Runs when an issue with the 'daily-log' label is opened or edited.
+# Parses the issue body into tracking/data/<date>.json, validates, commits.
+# Uses GitHub's built-in GITHUB_TOKEN (server-side auth) — no secret to expose.
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write     # to commit the JSON
+  issues: write       # to comment on / close the issue
+
+jobs:
+  log:
+    # only act on issues carrying the daily-log label
+    if: contains(join(github.event.issue.labels.*.name, ','), 'daily-log')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Parse issue body into a log file
+        id: parse
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          set -e
+          echo "$ISSUE_BODY" > issue_body.txt
+          OUT=$(python automation/parse_issue.py < issue_body.txt)
+          echo "outfile=$OUT" >> "$GITHUB_OUTPUT"
+          echo "Parsed -> $OUT"
+
+      - name: Validate the produced log
+        run: python automation/validate.py "${{ steps.parse.outputs.outfile }}"
+
+      - name: Commit the log
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "${{ steps.parse.outputs.outfile }}"
+          if git diff --cached --quiet; then
+            echo "No change to commit."
+          else
+            git commit -m "Log via issue #${{ github.event.issue.number }}: ${{ steps.parse.outputs.outfile }}"
+            git push
+          fi
+
+      - name: Comment success and close the issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const out = "${{ steps.parse.outputs.outfile }}";
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `Logged and committed \`${out}\`. Closing.`
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: "closed"
+            });
+
+      - name: On failure, comment what went wrong (leave issue open)
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "Could not log this entry — the parser or validation failed. Check the Actions run log for details, fix the fields, and edit the issue to retry."
+            });
