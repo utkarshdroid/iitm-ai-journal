@@ -1,0 +1,44 @@
+{
+  "description": "Contract for daily tracking logs. Every file in tracking/data/ must conform. Categories here are the single source of truth; scripts count against this list.",
+  "version": 1,
+  "categories": [
+    "Office/Work",
+    "Math",
+    "Python",
+    "Class",
+    "Gym",
+    "Commute",
+    "Meal/Break",
+    "Personal/Family",
+    "US Call",
+    "Sleep",
+    "Idle/Lost",
+    "Other"
+  ],
+  "hourly_slots": [
+    "05:00-06:00", "06:00-07:00", "07:00-08:00", "08:00-09:00",
+    "09:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00",
+    "13:00-14:00", "14:00-15:00", "15:00-16:00", "16:00-17:00",
+    "17:00-18:00", "18:00-19:00", "19:00-20:00", "20:00-21:00",
+    "21:00-22:00", "22:00-23:00"
+  ],
+  "day_file_shape": {
+    "date": "YYYY-MM-DD",
+    "slots": {
+      "<slot from hourly_slots>": {
+        "activity": "free text",
+        "category": "one of categories",
+        "energy": "integer 1-5 or null"
+      }
+    },
+    "signals": {
+      "sleep_hours": "number or null",
+      "woke_at": "HH:MM or null",
+      "mood": "integer 1-5 or null",
+      "overall_energy": "integer 1-5 or null",
+      "top_derailer": "free text",
+      "biggest_win": "free text",
+      "notes": "free text"
+    }
+  }
+}

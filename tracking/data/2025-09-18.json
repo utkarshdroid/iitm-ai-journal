@@ -1,0 +1,32 @@
+{
+  "date": "2025-09-18",
+  "slots": {
+    "05:00-06:00": {"activity": "Woke, freshen up", "category": "Personal/Family", "energy": 3},
+    "06:00-07:00": {"activity": "Gym", "category": "Gym", "energy": 4},
+    "07:00-08:00": {"activity": "Office work", "category": "Office/Work", "energy": 4},
+    "08:00-09:00": {"activity": "Office work", "category": "Office/Work", "energy": 4},
+    "09:00-10:00": {"activity": "Standup + reviews", "category": "Office/Work", "energy": 4},
+    "10:00-11:00": {"activity": "Deep work - feature", "category": "Office/Work", "energy": 5},
+    "11:00-12:00": {"activity": "Deep work - feature", "category": "Office/Work", "energy": 4},
+    "12:00-13:00": {"activity": "Lunch", "category": "Meal/Break", "energy": 3},
+    "13:00-14:00": {"activity": "Office work", "category": "Office/Work", "energy": 3},
+    "14:00-15:00": {"activity": "Team unblocking", "category": "Office/Work", "energy": 3},
+    "15:00-16:00": {"activity": "Wrap up + commute", "category": "Commute", "energy": 3},
+    "16:00-17:00": {"activity": "Math - problem set", "category": "Math", "energy": 4},
+    "17:00-18:00": {"activity": "Math - problem set", "category": "Math", "energy": 3},
+    "18:00-19:00": {"activity": "Python - assignment", "category": "Python", "energy": 3},
+    "19:00-20:00": {"activity": "US call + dinner", "category": "US Call", "energy": 3},
+    "20:00-21:00": {"activity": "Family time", "category": "Personal/Family", "energy": 3},
+    "21:00-22:00": {"activity": "Scrolling - lost track", "category": "Idle/Lost", "energy": 2},
+    "22:00-23:00": {"activity": "Wind down, sleep", "category": "Sleep", "energy": 2}
+  },
+  "signals": {
+    "sleep_hours": 7,
+    "woke_at": "05:00",
+    "mood": 4,
+    "overall_energy": 3,
+    "top_derailer": "Late-evening phone scrolling ate an hour",
+    "biggest_win": "Full 3 hours of M.Tech study despite office day",
+    "notes": "Math focus best right after commute; Python felt heavy when tired."
+  }
+}
